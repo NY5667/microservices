@@ -1,9 +1,14 @@
 package com.amigoscode.customer;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-public record CustomerService(CustomerRepository customerRepository) {
+@AllArgsConstructor
+public class CustomerService {
+
+    private final CustomerRepository customerRepository;
+
     public void registerCustomer(CustomRegistrationRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
@@ -12,6 +17,7 @@ public record CustomerService(CustomerRepository customerRepository) {
                 .build();
         // todo: check if email valid
         // todo: check if email not token
-        customerRepository.save(customer);
+        customerRepository.saveAndFlush(customer);
+
     }
 }
